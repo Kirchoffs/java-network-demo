@@ -13,6 +13,16 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         ByteBuf buf = (ByteBuf) msg;
         System.out.println("Received from client: " + buf.toString(CharsetUtil.UTF_8));
         System.out.println("Client address: " + ctx.channel().remoteAddress());
+
+        // After 5 seconds
+        ctx.channel().eventLoop().execute(() -> {
+            process(5, ctx);
+        });
+
+        // After 5 + 5 = 10 seconds
+        ctx.channel().eventLoop().execute(() -> {
+            process(5, ctx);
+        });
     }
 
     @Override
@@ -26,6 +36,15 @@ public class NettyServerHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         if (channel.isActive()) {
             ctx.close();
+        }
+    }
+
+    public void process(int seconds, ChannelHandlerContext ctx) {
+        try {
+            Thread.sleep(seconds * 1000);
+            ctx.writeAndFlush(Unpooled.copiedBuffer("A little gift for you", CharsetUtil.UTF_8));
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
