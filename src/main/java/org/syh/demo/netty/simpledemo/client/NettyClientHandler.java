@@ -25,7 +25,7 @@ public class NettyClientHandler extends ChannelInboundHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         super.exceptionCaught(ctx, cause);
         Channel channel = ctx.channel();
-        if(channel.isActive()){
+        if (channel.isActive()) {
             ctx.close();
         }
     }
