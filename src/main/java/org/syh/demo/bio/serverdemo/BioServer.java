@@ -1,4 +1,4 @@
-package org.syh.demo.bio;
+package org.syh.demo.bio.serverdemo;
 
 import java.io.IOException;
 import java.io.InputStream;
